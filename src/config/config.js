@@ -1,9 +1,9 @@
+require("dotenv").config();
+
 module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "",
-    DB: "portafolio",
-    TOKEN_SECRET:"GFgdfsgkñ45k435p345",
-    EXPIRES:"1h",
-    EXPIRES_COOKIE:90
-}
+  HOST: process.env.HOST,
+  USER: process.env.USER,
+  PASSWORD: "",
+  DB: process.env.DB,
+  TOKEN_SECRET: process.env.TOKEN_SECRET,
+};
