@@ -1,13 +1,16 @@
-const express = require('express')
-const router=express.Router()
-const {get,create,Delete,update}=require('../controllers/homeController')
+const express = require("express");
 
+const {
+  get,
+  create,
+  Delete,
+  update,
+} = require("../controllers/homeController");
 
+const router = express.Router();
+router.get("/", get);
+router.post("/", create);
+router.delete("/:id", Delete);
+router.put("/:id", update);
 
-router.get('/home',get)
-router.post('/createHome',create)
-router.delete('/deleteHome/:id',Delete)
-router.put('/updateHome',update)
-
-
-module.exports=router
+module.exports = router;

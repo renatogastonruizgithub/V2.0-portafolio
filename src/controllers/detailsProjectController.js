@@ -1,8 +1,9 @@
 const servicioDetails= require('../services/detailsProjectService')
 
  const get= async(req,res)=>{
-    try{      
-     const get= await servicioDetails.getDetailsProject() 
+    try{     
+        const {id}=req.params
+     const get= await servicioDetails.getDetailsProject(id) 
     return res.status(200).send({details:get})
     }   
     catch(e){       

@@ -1,26 +1,23 @@
-const About = require("../models/About");
-const Portafolio = require("../models/portafolio");
+const About = require("../dataBase/models/About");
+const Portafolio = require("../dataBase/models/portafolio");
 
 const getAbout = async () => {
-  const get = await About.findAll({
-    
-  }).catch((e) => {
+  const get = await About.findAll({}).catch((e) => {
     throw new Error("error al obtener datos");
   });
   return get;
 };
 
 const create = async (model, res) => {
-
-  const portafolio = await Portafolio.findAll()
-  let id    
+  const portafolio = await Portafolio.findAll();
+  let id;
   portafolio.forEach((material) => {
-     id=material
-    return id   
-  }); 
-   
-  if(portafolio.length ==0) return "debe crear una home"
-  else{
+    id = material;
+    return id;
+  });
+
+  if (portafolio.length == 0) return "debe crear una home";
+  else {
     const IfExist = await About.count();
     if (IfExist > 0) throw new Error("Solo se puede editar los datos");
     try {
@@ -48,14 +45,15 @@ const create = async (model, res) => {
         .json({ error: e?.message, error: "error al crear s", stack: e.stack });
     }
   }
-
-
- 
-}; //
+};
 
 const Delete = async (id) => {
   const IfExist = await About.count();
   if (IfExist == 0) throw new Error("no hay registros");
+  const about = await About.findOne({ where: { id: id } });
+  if (!about) {
+    throw new Error("no existe id");
+  }
   try {
     const borrado = await About.destroy({
       where: { id: id },
@@ -66,7 +64,7 @@ const Delete = async (id) => {
   }
 };
 
-const update = async (model) => {
+const update = async (model, id) => {
   const IfExist = await About.count();
   if (IfExist == 0) throw new Error("no hay registros");
   try {
@@ -79,7 +77,7 @@ const update = async (model) => {
         cumple: model.cumple,
       },
       {
-        where: { id: [1] },
+        where: { id: id },
       }
     ).catch((e) => {
       throw new Error("error al actualizar");
