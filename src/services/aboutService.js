@@ -40,9 +40,7 @@ const create = async (model, res) => {
       );
       return creado;
     } catch (e) {
-      return res
-        .status(500)
-        .json({ error: e?.message, error: "error al crear s", stack: e.stack });
+      throw new Error("error en base de datos" + e);
     }
   }
 };
@@ -50,23 +48,27 @@ const create = async (model, res) => {
 const Delete = async (id) => {
   const IfExist = await About.count();
   if (IfExist == 0) throw new Error("no hay registros");
-  const about = await About.findOne({ where: { id: id } });
+  const about = await About.findByPk(id);
   if (!about) {
-    throw new Error("no existe id");
+    throw new Error("no existe registro");
   }
   try {
     const borrado = await About.destroy({
       where: { id: id },
     });
     return "Deleted";
-  } catch (error) {
-    throw new Error("not found");
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
   }
 };
 
 const update = async (model, id) => {
   const IfExist = await About.count();
   if (IfExist == 0) throw new Error("no hay registros");
+
+  const about = await About.findByPk(id);
+  if (!about) throw new Error("no existe este registro");
+
   try {
     const act = await About.update(
       {
@@ -83,7 +85,9 @@ const update = async (model, id) => {
       throw new Error("error al actualizar");
     });
     return "actualizado";
-  } catch (error) {}
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
+  }
 };
 
 module.exports = { create, getAbout, update, Delete };
