@@ -26,33 +26,37 @@ const create = async (model, res) => {
     });
     return creado;
   } catch (e) {
-    return res.status(500).json({ error: "error al crear s", stack: e.stack });
+    throw new Error("error en base de datos" + e);
   }
 }; //
 
 const Delete = async (id) => {
   const IfExist = await Home.count();
   if (IfExist == 0) throw new Error("no hay registros");
+  const home = await Home.findOne({
+    where: { id: id },
+  });
+  if (!home) {
+    throw new Error("no se encontro este id");
+  }
+
   try {
     const borrado = await Home.destroy({
       where: { id: id },
     });
-
-    return "Deleted";
-  } catch (error) {
-    throw new Error("not found");
+    return borrado;
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
   }
 };
-const update = async (model, id, res) => {
+const update = async (model, id) => {
   const IfExist = await Home.count();
   if (IfExist == 0) throw new Error("no hay registros");
   const home = await Home.findOne({
     where: { id: id },
   });
   if (!home) {
-    return res
-      .status(404)
-      .json({ error: "no existe paramtetro", stack: e.stack });
+    throw new Error("no se encontro este id");
   } else {
     try {
       const act = await Home.update(
@@ -66,11 +70,9 @@ const update = async (model, id, res) => {
           where: { id: id },
         }
       );
-      return "Actualizado";
+      return act;
     } catch (e) {
-      return res
-        .status(500)
-        .json({ error: "error al crear actualizar s", stack: e.stack });
+      throw new Error("error en base de datos " + e);
     }
   }
 };

@@ -1,12 +1,17 @@
 const Home = require("../dataBase/models/home");
 const homeServicio = require("../services/homeService");
+const { endpointResponse } = require("../helpers/success");
 
 const get = async (req, res) => {
   try {
-    const get = await homeServicio.getHome();
-    return res.status(200).send({ banner: get });
+    const banner = await homeServicio.getHome();
+    endpointResponse({
+      res,
+      message: "banner retrieved successfully",
+      body: banner,
+    });
   } catch (e) {
-    res.status(e?.status || 500).send({ error: e?.message, error: "error" });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 
@@ -18,12 +23,14 @@ const create = async (req, res) => {
       imagen: req.body.imagen,
       h3: req.body.h3,
     };
-    const crear = await homeServicio.create(model, res);
-    return res.status(200).send({ data: crear });
+    const home = await homeServicio.create(model, res);
+    endpointResponse({
+      res,
+      message: "Home retrieved successfully",
+      body: home,
+    });
   } catch (e) {
-    res
-      .status(500)
-      .send({ error: e?.message, error: "error al crear c", stack: e.stack });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 
@@ -36,25 +43,27 @@ const update = async (req, res) => {
       h3: req.body.h3,
     };
     const { id } = req.params;
-    const crear = await homeServicio.update(model, id, res);
-    return res.status(200).send({ data: crear });
-  } catch (e) {
-    res.status(500).send({
-      error: e?.message,
-      error: "error al actualizar",
-      stack: e.stack,
+    const home = await homeServicio.update(model, id);
+    endpointResponse({
+      res,
+      message: "Home updated successfully",
+      body: home,
     });
+  } catch (e) {
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 const Delete = async (req, res) => {
   try {
     const { id } = req.params;
     const _delete = await homeServicio.Delete(id);
-    return res.status(200).send({ data: _delete });
+    endpointResponse({
+      res,
+      message: "Home deleled successfully",
+      body: _delete,
+    });
   } catch (e) {
-    res
-      .status(500)
-      .send({ error: e?.message, error: "error al eliminar", stack: e.stack });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 
