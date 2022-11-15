@@ -3,7 +3,7 @@ const Portafolio = require("../dataBase/models/portafolio");
 
 const getAbout = async () => {
   const get = await About.findAll({}).catch((e) => {
-    throw new Error("error al obtener datos " + e);
+    throw new Error("error en base de datos" + e);
   });
   return get;
 };

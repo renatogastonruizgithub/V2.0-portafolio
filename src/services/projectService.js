@@ -6,12 +6,12 @@ const getProjects = async () => {
     //devuelvo estos campos
     attributes: ["id", "text", "title", "imagen"],
   }).catch((e) => {
-    throw new Error("error al obtener datos " + e);
+    throw new Error("error en base de datos" + e);
   });
   return projects;
 };
 
-const create = async (model, res) => {
+const create = async (model) => {
   const portafolio = await Portafolio.findAll();
   let id;
   portafolio.forEach((material) => {
@@ -26,7 +26,6 @@ const create = async (model, res) => {
         text: model.text,
         title: model.title,
         imagen: model.imagen,
-        skills: model.skills,
         PortafolioId: id.dataValues.id,
       }).catch((e) => {
         throw new Error("error al guardar");
@@ -34,47 +33,50 @@ const create = async (model, res) => {
 
       return projects;
     } catch (e) {
-      return res
-        .status(500)
-        .json({ error: e?.message, error: "error al crear s", stack: e.stack });
+      throw new Error("error en base de datos" + e);
     }
   }
 };
 
 const Delete = async (id) => {
-  const IfExist = await Project.findOne({ where: { id: id } });
-  if (!IfExist) return "not found id";
+  const IfExist = await Project.count();
+  if (IfExist == 0) throw new Error("no hay registros");
+  const about = await Project.findByPk(id);
+  if (!about) {
+    throw new Error("no existe este registro");
+  }
   try {
     const borrado = await Project.destroy({
       where: { id },
     });
-    return "Deleted";
-  } catch (error) {
-    throw new Error("not found");
+    return borrado;
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
   }
 };
 
 const update = async (model, id) => {
+  const IfExist = await Project.count();
+  if (IfExist == 0) throw new Error("no hay registros");
+  const about = await Project.findByPk(id);
+  if (!about) {
+    throw new Error("no existe este registro");
+  }
   try {
-    const IfExist = await Project.findOne({ where: { id: id } });
-    if (!IfExist) return "not found id";
-    else {
-      const act = await Project.update(
-        {
-          imagen: model.imagen,
-          title: model.title,
-          text: model.text,
-          skills: model.skills,
-        },
-        {
-          where: { id },
-        }
-      ).catch((e) => {
-        throw new Error("error al actualizar");
-      });
-    }
-    return "actualizado";
-  } catch (error) {}
+    const act = await Project.update(
+      {
+        imagen: model.imagen,
+        title: model.title,
+        text: model.text,
+      },
+      {
+        where: { id: id },
+      }
+    );
+    return act;
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
+  }
 };
 
 module.exports = { create, getProjects, update, Delete };
