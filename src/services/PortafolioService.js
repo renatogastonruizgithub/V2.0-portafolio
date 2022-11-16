@@ -21,7 +21,7 @@ const getPortafolio = async () => {
       { model: Project },
     ],
   }).catch((e) => {
-    throw new Error("error al obtener datos " + e);
+    throw new Error("error en base de datos" + e);
   });
   return projects;
 };
