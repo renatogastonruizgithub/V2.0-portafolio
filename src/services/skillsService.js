@@ -5,6 +5,8 @@ const getSkills = async () => {
   const skills = await Skill.findAll({
     attributes: ["id", "nombre", "link"],
     attributes: { exclude: ["PortafolioId"] },
+  }).catch((e) => {
+    throw new Error("error al obtener datos " + e);
   });
 
   return skills;
@@ -29,40 +31,45 @@ const create = async (modelSkill, res) => {
 
       return creado;
     } catch (e) {
-      return res.status(500).send({ stack: e.stack, error: "error al crear" });
+      throw new Error("error en base de datos" + e);
     }
   }
 };
 
 const Delete = async (id) => {
-  const IfExist = await Skill.findOne({ where: { id: id } });
-  if (!IfExist) return "not found id";
+  const skill = await Skill.findByPk(id);
+  if (!skill) throw new Error("no existe este registro");
   try {
     const borrado = await Skill.destroy({
-      where: { id },
+      where: { id: id },
     });
     return "Deleted";
-  } catch (error) {
-    throw new Error("not found");
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
   }
 };
 
 const update = async (modelSkill, id) => {
-  const IfExist = await Skill.findOne({ where: { id: id } });
-  if (!IfExist) return "not found id";
-  else {
+  const IfExist = await Skill.count();
+  if (IfExist == 0) throw new Error("no hay registros");
+
+  const skill = await Skill.findByPk(id);
+  if (!skill) throw new Error("no existe este registro");
+
+  try {
     const act = await Skill.update(
       {
         nombre: modelSkill.nombre,
         link: modelSkill.link,
       },
       {
-        where: { id },
+        where: { id: id },
       }
     );
+    return act;
+  } catch (e) {
+    throw new Error("error en base de datos" + e);
   }
-
-  return "actualizado";
 };
 
 module.exports = { create, Delete, update, getSkills };

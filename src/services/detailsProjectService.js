@@ -8,7 +8,7 @@ const getDetailsProject = async (id) => {
     model: Project,
     include: [{ model: Skill, attributes: { exclude: ["PortafolioId"] } }],
   }).catch((e) => {
-    throw new Error("error al obtener datos");
+    throw new Error("error al obtener datos " + e);
   });
   return projects;
 };

@@ -1,11 +1,16 @@
 const servicioSkill = require("../services/skillsService");
+const { endpointResponse } = require("../helpers/success");
 
 const get = async (req, res) => {
   try {
-    const get = await servicioSkill.getSkills();
-    return res.status(200).send({ skills: get });
+    const skills = await servicioSkill.getSkills();
+    endpointResponse({
+      res,
+      message: "skills retrieved successfully",
+      body: skills,
+    });
   } catch (e) {
-    res.status(e?.status || 500).send({ error: e?.message, error: "error" });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 
@@ -16,10 +21,14 @@ const create = async (req, res) => {
       link: req.body.link,
     };
 
-    const crear = await servicioSkill.create(modelSkill, res);
-    return res.status(200).send({ data: crear });
+    const skills = await servicioSkill.create(modelSkill);
+    endpointResponse({
+      res,
+      message: "skills created successfully",
+      body: skills,
+    });
   } catch (e) {
-    res.status(500).send({ error: "error al crear", stack: e.stack });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 
@@ -31,26 +40,28 @@ const update = async (req, res) => {
       link: req.body.link,
     };
     console.log(id);
-    const crear = await servicioSkill.update(modelSkill, id);
-    return res.status(200).send({ data: crear });
-  } catch (e) {
-    res.status(500).send({
-      error: e?.message,
-      error: "error al actualizar",
-      stack: e.stack,
+    const skills = await servicioSkill.update(modelSkill, id);
+    endpointResponse({
+      res,
+      message: "skills updated successfully",
+      body: skills,
     });
+  } catch (e) {
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 const Delete = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const crear = await servicioSkill.Delete(id);
-    return res.status(200).send({ data: crear });
+    const skills = await servicioSkill.Delete(id);
+    endpointResponse({
+      res,
+      message: "skills delated successfully",
+      body: skills,
+    });
   } catch (e) {
-    res
-      .status(500)
-      .send({ error: e?.message, error: "error al eliminar", stack: e.stack });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 

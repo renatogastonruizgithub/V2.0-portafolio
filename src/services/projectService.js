@@ -6,7 +6,7 @@ const getProjects = async () => {
     //devuelvo estos campos
     attributes: ["id", "text", "title", "imagen"],
   }).catch((e) => {
-    throw new Error("error al obtener datos");
+    throw new Error("error al obtener datos " + e);
   });
   return projects;
 };
