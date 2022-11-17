@@ -2,6 +2,7 @@ const Portafolio = require("../dataBase/models/portafolio");
 const Project = require("../dataBase/models/Projects");
 const Projects_skills = require("../dataBase/models/project_skill");
 const Details = require("../dataBase/models/details_project");
+const Skill = require("../dataBase/models/Skills");
 
 const getProjects = async () => {
   const projects = await Project.findAll({
@@ -14,9 +15,10 @@ const getProjects = async () => {
 };
 
 const getDetailsProject = async (id) => {
+  const IfExist = await Details.count();
+  if (IfExist == 0) throw new Error("Ingrese detalles a un proyecto");
   const details = await Details.findAll({
     attributes: { exclude: ["ProjectId"] },
-
     include: [
       {
         model: Project,

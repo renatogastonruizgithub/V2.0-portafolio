@@ -16,12 +16,6 @@ const create = async (model, id) => {
   if (!project) throw new Error("Debe crear una proyecto");
 
   try {
-    const projectId = await Project.findAll();
-    let id;
-    projectId.forEach((material) => {
-      id = material;
-      return id;
-    });
     const details = await Details.create({
       text: model.text,
       title: model.title,
