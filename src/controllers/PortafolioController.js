@@ -1,13 +1,15 @@
 const servicioPortafolio = require("../services/PortafolioService");
-
+const { endpointResponse } = require("../helpers/success");
 const get = async (req, res) => {
   try {
-    const get = await servicioPortafolio.getPortafolio();
-    return res.status(200).send({ portafolio: get });
+    const portafolio = await servicioPortafolio.getPortafolio();
+    endpointResponse({
+      res,
+      message: "portafolio retrieved successfully",
+      body: portafolio,
+    });
   } catch (e) {
-    res
-      .status(e?.status || 500)
-      .send({ error: e?.message, error: "error", stack: e.stack });
+    res.status(e?.status || 500).send({ error: e?.message, stack: e.stack });
   }
 };
 
