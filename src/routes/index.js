@@ -6,6 +6,7 @@ const portafolio = require("./portafolioRoute");
 const about = require("./aboutRouter");
 const home = require("./homeRouter");
 const detailsProjects = require("./detailsProjectRouter");
+const certificates = require("./certificatesRoutes");
 const router = express.Router();
 // example of a route with index controller get function
 
@@ -15,5 +16,5 @@ router.use("/home", home);
 router.use("/portafolio", portafolio);
 router.use("/skills", skills);
 router.use("/projects", projects);
-
+router.use("/certificates", certificates);
 module.exports = router;
