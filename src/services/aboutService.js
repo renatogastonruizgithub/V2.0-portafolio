@@ -68,7 +68,6 @@ const update = async (model, id) => {
 
   const about = await About.findByPk(id);
   if (!about) throw new Error("no existe este registro");
-
   try {
     const act = await About.update(
       {

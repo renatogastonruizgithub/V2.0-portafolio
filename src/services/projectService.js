@@ -1,5 +1,7 @@
 const Portafolio = require("../dataBase/models/portafolio");
 const Project = require("../dataBase/models/Projects");
+const Projects_skills = require("../dataBase/models/project_skill");
+const Details = require("../dataBase/models/details_project");
 
 const getProjects = async () => {
   const projects = await Project.findAll({
@@ -11,6 +13,31 @@ const getProjects = async () => {
   return projects;
 };
 
+const getDetailsProject = async (id) => {
+  const details = await Details.findAll({
+    attributes: { exclude: ["ProjectId"] },
+
+    include: [
+      {
+        model: Project,
+        where: { id: id },
+        attributes: ["id"],
+        include: [
+          {
+            model: Skill,
+            attributes: ["nombre", "link"],
+            through: {
+              attributes: ["id"],
+            },
+          },
+        ],
+      },
+    ],
+  }).catch((e) => {
+    throw new Error("error en base de datos" + e);
+  });
+  return details;
+};
 const create = async (model) => {
   const portafolio = await Portafolio.findAll();
   let id;
@@ -79,4 +106,45 @@ const update = async (model, id) => {
   }
 };
 
-module.exports = { create, getProjects, update, Delete };
+const createSkills = async (model, id) => {
+  const portafolio = await Portafolio.count();
+  const project = await Project.count();
+  if (!portafolio) throw new Error("Debe crear una home");
+  if (!project) throw new Error("Debe crear una proyecto");
+  try {
+    const projects = await Projects_skills.create({
+      ProjectId: id,
+      SkillId: model.SkillId,
+    });
+
+    return projects;
+  } catch (e) {
+    throw new Error("error en base de datos " + e);
+  }
+};
+const deletedSkills = async (idSkill, idProjecto) => {
+  const portafolio = await Portafolio.count();
+  const project = await Project.count();
+  if (!portafolio) throw new Error("Debe crear una home");
+  if (!project) throw new Error("Debe crear una proyecto");
+
+  try {
+    const projects = await Projects_skills.destroy({
+      where: { ProjectId: idProjecto, SkillId: idSkill },
+    });
+
+    return projects;
+  } catch (e) {
+    throw new Error("error en base de datos " + e);
+  }
+};
+
+module.exports = {
+  create,
+  getProjects,
+  update,
+  Delete,
+  createSkills,
+  deletedSkills,
+  getDetailsProject,
+};
