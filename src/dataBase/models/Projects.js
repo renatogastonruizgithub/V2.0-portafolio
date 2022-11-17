@@ -1,7 +1,6 @@
 const sequelize = require("../connection");
 const { DataTypes } = require("sequelize");
 const Details = require("./details_project");
-const Skill = require("./Skills");
 
 const Project = sequelize.define(
   "Projects",
@@ -28,10 +27,7 @@ const Project = sequelize.define(
   }
 );
 
-Details.hasOne(Project);
-Project.belongsTo(Details);
-
-Project.belongsToMany(Skill, { through: "Projects_Skills" });
-Skill.belongsToMany(Project, { through: "Projects_Skills" });
+Project.hasOne(Details);
+Details.belongsTo(Project);
 
 module.exports = Project;
