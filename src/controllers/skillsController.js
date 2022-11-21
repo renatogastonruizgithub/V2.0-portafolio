@@ -18,10 +18,9 @@ const create = async (req, res) => {
   try {
     const modelSkill = {
       nombre: req.body.nombre,
-      link: req.body.link,
     };
-
-    const skills = await servicioSkill.create(modelSkill);
+    const { path } = req.file;
+    const skills = await servicioSkill.create(modelSkill, path);
     endpointResponse({
       res,
       message: "skills created successfully",

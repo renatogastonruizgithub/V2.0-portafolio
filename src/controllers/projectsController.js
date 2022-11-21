@@ -33,9 +33,9 @@ const create = async (req, res) => {
     const model = {
       text: req.body.text,
       title: req.body.title,
-      imagen: req.body.imagen,
     };
-    const projects = await projectServicio.create(model);
+    const { path } = req.file;
+    const projects = await projectServicio.create(model, path);
     endpointResponse({
       res,
       message: "projects created successfully",

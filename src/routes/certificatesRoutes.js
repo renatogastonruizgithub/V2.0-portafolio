@@ -6,9 +6,10 @@ const {
   Delete,
   update,
 } = require("../controllers/certificatesController");
+const upload = require("../helpers/upload");
 
 router.get("/", get);
-router.post("/", create);
+router.post("/", upload.single("imagen"), create);
 router.delete("/:id", Delete);
 router.put("/:id", update);
 

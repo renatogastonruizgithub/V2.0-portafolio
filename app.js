@@ -4,6 +4,8 @@ const { indexDb } = require("./src/dataBase/models/index");
 require("dotenv").config();
 const cors = require("cors");
 const indexRouter = require("./src/routes/index");
+const { apps } = require("./src/helpers/firebase");
+
 const app = express();
 app.use(express.json());
 

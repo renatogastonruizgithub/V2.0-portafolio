@@ -9,10 +9,11 @@ const {
   createSkills,
   getDetailsProject,
 } = require("../controllers/projectsController");
+const upload = require("../helpers/upload");
 
 router.get("/", get);
 router.get("/:id", getDetailsProject); //id del proyecto
-router.post("/", create);
+router.post("/", upload.single("imagen"), create);
 router.delete("/:id", Delete);
 router.put("/:id", update);
 router.post("/ProjectIdSkills/:id", createSkills);

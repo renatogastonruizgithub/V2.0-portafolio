@@ -1,5 +1,6 @@
 const Certificate = require("../dataBase/models/certificated");
 const Portafolio = require("../dataBase/models/portafolio");
+const { uplpoadImagen } = require("../helpers/firebase");
 
 const get = async () => {
   const get = await Certificate.findAll({}).catch((e) => {
@@ -19,10 +20,11 @@ const create = async (model) => {
   if (portafolio.length == 0) return "debe crear una home";
 
   try {
+    const url = await uplpoadImagen(path);
     const creado = await Certificate.create({
       title: model.title,
       company: model.company,
-      logo: model.logo,
+      logo: url,
       PortafolioId: id.dataValues.id,
     });
 

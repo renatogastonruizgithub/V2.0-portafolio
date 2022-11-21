@@ -20,10 +20,10 @@ const create = async (req, res) => {
     const model = {
       h1: req.body.h1,
       h2: req.body.h2,
-      imagen: req.body.imagen,
       h3: req.body.h3,
     };
-    const home = await homeServicio.create(model, res);
+    const { path } = req.file;
+    const home = await homeServicio.create(model, path);
     endpointResponse({
       res,
       message: "Home retrieved successfully",
