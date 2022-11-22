@@ -19,9 +19,9 @@ const create = async (req, res) => {
     const model = {
       title: req.body.title,
       company: req.body.company,
-      logo: req.body.logo,
     };
-    const certificate = await certificateServicio.create(model);
+    const { path } = req.file;
+    const certificate = await certificateServicio.create(model, path);
     endpointResponse({
       res,
       message: "certificate created successfully",

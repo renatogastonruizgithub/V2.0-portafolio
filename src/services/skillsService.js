@@ -1,5 +1,6 @@
 const Portafolio = require("../dataBase/models/portafolio");
 const Skill = require("../dataBase/models/Skills");
+const { uplpoadImagen } = require("../helpers/firebase");
 
 const getSkills = async () => {
   const skills = await Skill.findAll({
@@ -12,7 +13,7 @@ const getSkills = async () => {
   return skills;
 };
 
-const create = async (modelSkill, res) => {
+const create = async (modelSkill, path) => {
   const portafolio = await Portafolio.findAll();
   let id;
   portafolio.forEach((material) => {
@@ -23,9 +24,10 @@ const create = async (modelSkill, res) => {
   if (portafolio.length == 0) return "debe crear una home";
   else {
     try {
+      const url = await uplpoadImagen(path);
       const creado = await Skill.create({
         nombre: modelSkill.nombre,
-        link: modelSkill.link,
+        link: url,
         PortafolioId: id.dataValues.id,
       });
 

@@ -3,6 +3,7 @@ const Project = require("../dataBase/models/Projects");
 const Projects_skills = require("../dataBase/models/project_skill");
 const Details = require("../dataBase/models/details_project");
 const Skill = require("../dataBase/models/Skills");
+const { uplpoadImagen } = require("../helpers/firebase");
 
 const getProjects = async () => {
   const projects = await Project.findAll({
@@ -51,10 +52,11 @@ const create = async (model) => {
   if (portafolio.length == 0) return "debe crear una home";
   else {
     try {
+      const url = await uplpoadImagen(path);
       const projects = await Project.create({
         text: model.text,
         title: model.title,
-        imagen: model.imagen,
+        imagen: url,
         PortafolioId: id.dataValues.id,
       }).catch((e) => {
         throw new Error("error al guardar");

@@ -1,5 +1,6 @@
 const Home = require("../dataBase/models/home");
 const Portafolio = require("../dataBase/models/portafolio");
+const { uplpoadImagen } = require("../helpers/firebase");
 
 const getHome = async () => {
   const get = await Home.findAll().catch((e) => {
@@ -12,11 +13,12 @@ const create = async (model, res) => {
   const IfExist = await Home.count();
   if (IfExist > 0) throw new Error("Solo se puede editar los datos");
   try {
+    const url = await uplpoadImagen(path);
     const creado = await Home.create({
       h1: model.h1,
       h2: model.h2,
       h3: model.h3,
-      imagen: model.imagen,
+      imagen: url,
     }).catch((e) => {
       return e;
     });
