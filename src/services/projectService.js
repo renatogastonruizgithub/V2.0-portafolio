@@ -41,7 +41,7 @@ const getDetailsProject = async (id) => {
   });
   return details;
 };
-const create = async (model) => {
+const create = async (model, path) => {
   const portafolio = await Portafolio.findAll();
   let id;
   portafolio.forEach((material) => {
@@ -86,7 +86,7 @@ const Delete = async (id) => {
   }
 };
 
-const update = async (model, id) => {
+const update = async (model, id, path) => {
   const IfExist = await Project.count();
   if (IfExist == 0) throw new Error("no hay registros");
   const about = await Project.findByPk(id);
@@ -94,9 +94,10 @@ const update = async (model, id) => {
     throw new Error("no existe este registro");
   }
   try {
+    const url = await uplpoadImagen(path);
     const act = await Project.update(
       {
-        imagen: model.imagen,
+        imagen: url,
         title: model.title,
         text: model.text,
       },

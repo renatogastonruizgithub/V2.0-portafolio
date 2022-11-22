@@ -11,6 +11,6 @@ const upload = require("../helpers/upload");
 router.get("/", get);
 router.post("/", upload.single("imagen"), create);
 router.delete("/:id", Delete);
-router.put("/:id", update);
+router.put("/:id", upload.single("imagen"), update);
 
 module.exports = router;

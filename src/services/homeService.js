@@ -9,7 +9,7 @@ const getHome = async () => {
   return get;
 };
 
-const create = async (model, res) => {
+const create = async (model, path) => {
   const IfExist = await Home.count();
   if (IfExist > 0) throw new Error("Solo se puede editar los datos");
   try {
@@ -51,7 +51,7 @@ const Delete = async (id) => {
     throw new Error("error en base de datos" + e);
   }
 };
-const update = async (model, id) => {
+const update = async (model, id, path) => {
   const IfExist = await Home.count();
   if (IfExist == 0) throw new Error("no hay registros");
   const home = await Home.findOne({
@@ -61,9 +61,10 @@ const update = async (model, id) => {
     throw new Error("no se encontro este id");
   } else {
     try {
+      const url = await uplpoadImagen(path);
       const act = await Home.update(
         {
-          imagen: model.imagen,
+          imagen: url,
           h1: model.h1,
           h2: model.h2,
           h3: model.h3,

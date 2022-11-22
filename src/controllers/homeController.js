@@ -43,7 +43,8 @@ const update = async (req, res) => {
       h3: req.body.h3,
     };
     const { id } = req.params;
-    const home = await homeServicio.update(model, id);
+    const { path } = req.file;
+    const home = await homeServicio.update(model, id, path);
     endpointResponse({
       res,
       message: "Home updated successfully",

@@ -9,7 +9,7 @@ const get = async () => {
   return get;
 };
 
-const create = async (model) => {
+const create = async (model, path) => {
   const portafolio = await Portafolio.findAll();
   let id;
   portafolio.forEach((material) => {
@@ -51,7 +51,7 @@ const Delete = async (id) => {
   }
 };
 
-const update = async (model, id) => {
+const update = async (model, id, path) => {
   const IfExist = await Certificate.count();
   if (IfExist == 0) throw new Error("no hay registros");
 
@@ -59,11 +59,12 @@ const update = async (model, id) => {
   if (!about) throw new Error("no existe este registro");
 
   try {
+    const url = await uplpoadImagen(path);
     const act = await Certificate.update(
       {
         title: model.title,
         company: model.company,
-        logo: model.logo,
+        logo: url,
       },
       {
         where: { id: id },
