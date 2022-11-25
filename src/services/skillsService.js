@@ -51,7 +51,7 @@ const Delete = async (id) => {
   }
 };
 
-const update = async (modelSkill, id) => {
+const update = async (modelSkill, id, path) => {
   const IfExist = await Skill.count();
   if (IfExist == 0) throw new Error("no hay registros");
 
@@ -59,10 +59,11 @@ const update = async (modelSkill, id) => {
   if (!skill) throw new Error("no existe este registro");
 
   try {
+    const url = await uplpoadImagen(path);
     const act = await Skill.update(
       {
         nombre: modelSkill.nombre,
-        link: modelSkill.link,
+        link: url,
       },
       {
         where: { id: id },

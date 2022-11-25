@@ -6,9 +6,10 @@ const {
   update,
   deleted,
 } = require("../controllers/detailsController");
+const upload = require("../helpers/upload");
 
 router.get("/", get);
-router.post("/:id", create); //pasar id del proyecto
+router.post("/:id", upload.array("imagen"), create); //pasar id del proyecto
 router.put("/:id", update);
 router.delete("/:id", deleted);
 

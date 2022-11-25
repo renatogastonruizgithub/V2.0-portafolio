@@ -20,9 +20,11 @@ const create = async (req, res) => {
     const model = {
       text: req.body.text,
       title: req.body.title,
-      imagen: req.body.imagen,
     };
-    const details = await servicioDetails.create(model, id);
+    const path = {
+      path: req.files,
+    };
+    const details = await servicioDetails.create(model, id, path);
     endpointResponse({
       res,
       message: "details created successfully",
@@ -52,9 +54,9 @@ const update = async (req, res) => {
     const model = {
       text: req.body.text,
       title: req.body.title,
-      imagen: req.body.imagen,
     };
-    const details = await servicioDetails.updated(model, id);
+    const { path } = req.file;
+    const details = await servicioDetails.updated(model, id, path);
     endpointResponse({
       res,
       message: "details update successfully",

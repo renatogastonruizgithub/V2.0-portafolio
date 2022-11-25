@@ -38,9 +38,9 @@ const update = async (req, res) => {
     const model = {
       title: req.body.title,
       company: req.body.company,
-      logo: req.body.logo,
     };
-    const certificate = await certificateServicio.update(model, id);
+    const { path } = req.file;
+    const certificate = await certificateServicio.update(model, id, path);
     endpointResponse({
       res,
       message: "certificate updated successfully",

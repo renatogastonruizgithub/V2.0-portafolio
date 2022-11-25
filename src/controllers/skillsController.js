@@ -38,8 +38,8 @@ const update = async (req, res) => {
       nombre: req.body.nombre,
       link: req.body.link,
     };
-    console.log(id);
-    const skills = await servicioSkill.update(modelSkill, id);
+    const { path } = req.file;
+    const skills = await servicioSkill.update(modelSkill, id, path);
     endpointResponse({
       res,
       message: "skills updated successfully",
