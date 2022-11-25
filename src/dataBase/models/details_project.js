@@ -8,13 +8,8 @@ const Details = sequelize.define(
       type: DataTypes.TEXT("long"),
       allowNull: true,
       get: function () {
-        // devuelvo string
-        return JSON.stringify(this.getDataValue("imagen"))
-          .slice(1, -1)
-          .split(" ");
-      },
-      set: function (value) {
-        return this.setDataValue("imagen", JSON.stringify(value));
+        // devuelvo array
+        return this.getDataValue("imagen").split(",");
       },
     },
     text: {
