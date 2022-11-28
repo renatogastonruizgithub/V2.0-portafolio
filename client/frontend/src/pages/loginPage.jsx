@@ -8,7 +8,7 @@ export default function Login() {
             <form className="card-body">
               <div className="input-group input-group-md mb-4">
                 <span className="input-group-text" id="inputGroup-sizing-sm">
-                  <i class="bi bi-envelope"></i>
+                  <i className="bi bi-envelope"></i>
                 </span>
                 <input
                   type="emial"
@@ -20,7 +20,7 @@ export default function Login() {
               </div>
               <div className="input-group input-group-md mb-5">
                 <span className="input-group-text" id="inputGroup-sizing-sm">
-                  <i class="bi bi-pass"></i>
+                  <i className="bi bi-pass"></i>
                 </span>
                 <input
                   type="password"
@@ -30,7 +30,7 @@ export default function Login() {
                   placeholder="contraseña"
                 />
               </div>
-              <button type="button" class="btn btn-success mx-auto">
+              <button type="button" className="btn btn-success mx-auto">
                 Inicar sesion
               </button>
             </form>
