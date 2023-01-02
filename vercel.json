@@ -3,7 +3,7 @@
     "name": "PortfolioBackend",
     "builds": [
         {
-            "src": "index.js",
+            "src": "./index.js",
             "use": "@vercel/node"
         }
     ],

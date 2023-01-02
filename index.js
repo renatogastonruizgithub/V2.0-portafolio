@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 }); */
 
 app.use(indexDb); 
-
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(`Servidor funcionando en el puerto ${process.env.SERVER_PORT}`);
+const port=5000
+app.listen(port, () => {
+  console.log(`Servidor funcionando en el puerto ${port}`);
 });
