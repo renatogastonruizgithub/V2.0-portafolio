@@ -19,7 +19,7 @@ const create = async (model, id, req) => {
   try {
     const arrayUrl = [];
     req.path.map((element, i) => {
-      arrayUrl.push(element.path);
+      arrayUrl.push("https://mipaginaweb.fly.dev/"+element.filename);
     });
     console.log("urls " + arrayUrl.join(",").toString());
     const urls = arrayUrl.join(",").toString();

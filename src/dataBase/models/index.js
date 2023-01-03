@@ -8,6 +8,6 @@ indexDb.use(require("./details_project"));
 indexDb.use(require("./portafolio"));
 indexDb.use(require("./certificated"));
 indexDb.use(require("./home"));
-indexDb.use(require("./Project_skill"));
+indexDb.use(require("./project_skill"));
 
 module.exports = { indexDb };

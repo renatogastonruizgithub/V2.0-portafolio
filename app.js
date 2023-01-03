@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use("/", indexRouter); 
 
- app.use("/", express.static(path.join(__dirname, "publics/"))); 
+ app.use(express.static(path.join(__dirname, "src/public/uploads/"))); 
  app.use("/", express.static(path.join(__dirname, "/client/frontend"))); 
 
 app.get("/", (_req, res) => {
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 }); */
 
 app.use(indexDb); 
-const port=5000
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Servidor funcionando en el puerto ${port}`);
 });
